@@ -1,6 +1,6 @@
 # Gravity Ballz ++
 
-Gravity Ballz ++ is a simple game built using C++ and SDL.
+Gravity Ballz ++ is a simple game built using C++ and SFML.
 
 # How to run
 
@@ -8,4 +8,4 @@ Type "make" in the terminal
 
 # Libraries
 
-SFML
+SFML: https://www.sfml-dev.org/
