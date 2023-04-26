@@ -11,8 +11,8 @@ int main()
     sf::CircleShape shape(100.f);
     float x = 400;
     float y = 000;
-    float dx = 0;
-    float dy = 0;
+    float dx = 0; // x velocity
+    float dy = 0; // y velocity
     float g = 1; // dy^2
     
     shape.setFillColor(sf::Color::Green);
