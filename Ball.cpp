@@ -17,6 +17,10 @@ public:
         radius = startRadius;
     }
 
+    // Destructor
+    ~Ball() {
+    }
+
     // Move the ball by updating its position based on its speed
     void move() {
         x += xVelocity;
