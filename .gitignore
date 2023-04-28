@@ -1,3 +1,10 @@
+# Folders
+dependencies/
+.vscode/
+
+# Files
+Makefile
+
 # Prerequisites
 *.d
 
