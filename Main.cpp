@@ -5,7 +5,7 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1200, 1600), "Gravity Ballz ++");
+    sf::RenderWindow window(sf::VideoMode(1200, 500), "Gravity Ballz ++");
     sf::CircleShape shape(100.f);
     sf::RectangleShape square(sf::Vector2f(300, 100));
     square.setPosition(400, 1400);

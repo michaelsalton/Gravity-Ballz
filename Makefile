@@ -1,10 +1,6 @@
-all: clean build run
-
-clean:
-	rm -f a.out
+all: build run
 
 build: 
-	g++ Main.cpp -I/opt/homebrew/Cellar/sfml/2.5.1_2/include/ -o a.out -L/opt/homebrew/Cellar/sfml/2.5.1_2/lib/ -lsfml-graphics -lsfml-window -lsfml-system
-
+	g++ Main.cpp -I"C:\Users\alaan\Documents\SFML-2.5.1\include" -o main -L"C:\Users\alaan\Documents\SFML-2.5.1\lib" -lsfml-graphics -lsfml-window -lsfml-system
 run:
-	./a.out
+	./main.exe
