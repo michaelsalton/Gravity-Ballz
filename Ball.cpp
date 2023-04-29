@@ -1,10 +1,12 @@
 #include <SFML/Graphics.hpp>
 #include <math.h>
 
+#include "Entity.cpp"
+
 class Ball {
 private:
     int x, y; // Position of the ball
-    int xVelocity, yVelocity; // Speed of the ball
+    int xVelocity = 0, yVelocity = 0; // Speed of the ball
     int radius; // Radius of the ball
     sf::Color color;
     // Add any other necessary private members here
@@ -25,15 +27,24 @@ public:
     }
 
     // Move the ball by updating its position based on its speed
-    void move() {
-        x += xVelocity;
-        y += yVelocity;
-
-        // Simulate gravity by increasing the ball's y velocity
-        // You can adjust the gravity constant as needed
-        const int gravity = 1;
-        yVelocity += gravity;
+    // rework this to be: moveHorizontal() and moveVertical()
+    void moveLeft() {
+        xVelocity = 5;
+        x -= xVelocity;
     }
+    void moveRight() {
+        xVelocity = 5;
+        x += xVelocity;
+    }
+    void moveUp() {
+        yVelocity = 5;
+        y -= yVelocity;
+    }
+    void moveDown() {
+        yVelocity = 5;
+        y += yVelocity;
+    }
+    int getX() {return x;} int getY() {return y;}
 
     // Draw the ball on the screen using a graphics library
     void draw(sf::RenderWindow& window) {

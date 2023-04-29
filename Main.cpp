@@ -5,27 +5,19 @@
 
 #include "Ball.cpp"
 
-// Allan is a nigga
-
 // Allan is a legendary programmer
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1200, 1600), "Gravity Ballz ++");
+    sf::RenderWindow window(sf::VideoMode(1200, 1000), "Gravity Ballz ++");
     sf::CircleShape shape(100.f);
     sf::RectangleShape square(sf::Vector2f(300, 100));
     square.setPosition(400, 1400);
     square.setFillColor(sf::Color::Black);
 
-    float x = 400;
-    float y = 0;
-    float dx = 0; // x velocity
-    float dy = 0; // y velocity
-    float g = 1; // dy^2
-    float dampening = 0.8;
-
     std::vector<Ball> balls; // Vector to hold the balls
-
+    sf::Color color(rand() % 256, rand() % 256, rand() % 256);
+    Ball ball(400, 400, ball.getX(), ball.getY(), 20, color);
     while (window.isOpen())
     {
         sf::Event event;
@@ -38,17 +30,34 @@ int main()
         // ************** CODE HERE **************
 
         // Check if it's time to create a new ball
-        if (rand() % 10 == 0) {
+        if (false){//rand() % 10 == 0) {
             sf::Color color(rand() % 256, rand() % 256, rand() % 256); // Generate a random color
             Ball ball(rand() % 1200, 0, 0, rand() % 10 + 5, rand() % 20 + 10, color); // Generate a random ball
             balls.push_back(ball); // Add the ball to the vector
         }
+        //########TEST BED STARTS##########
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+            ball.moveLeft(); //ball.draw(window);
+        }       
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+            ball.moveRight(); 
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+            ball.moveUp(); //ball.draw(window);
+        }       
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+            ball.moveDown(); 
+        }
+
+        ball.draw(window);
+        //########TEST BED ENDS############
 
         // Move and draw all the balls
-        for (auto& ball : balls) {
-            ball.move();
-            ball.draw(window);
-        }
+        //for (auto& ball : balls) {
+        //    ball.move();
+        //    ball.draw(window);
+        //}
 
         // ***************************************
 
