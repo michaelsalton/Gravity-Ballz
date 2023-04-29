@@ -18,19 +18,10 @@ public:
     }
 
     void draw(sf::RenderWindow& window) {
-        // Create a rectangle shape with the player's width and height
         sf::RectangleShape shape(sf::Vector2f(width, height));
         shape.setFillColor(color);
-        // Set the position of the rectangle shape to match the player's position
         shape.setPosition(x, y);
-        // Draw the rectangle shape to the window
         window.draw(shape);
     }
 
-       // Get the radius of the ball
-    int getRadius() const {
-        return radius;
-    }
-
-    // Add any other necessary public members here
 };

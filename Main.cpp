@@ -3,18 +3,13 @@
 #include <thread>
 #include <iostream>
 
-#include "Ball.cpp";
+#include "Ball.cpp"
+#include "Player.cpp"
+#include "Themes.hpp"
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1200, 1600), "Gravity Ballz ++");
-    
-    float x = 400;
-    float y = 0;
-    float dx = 0; // x velocity
-    float dy = 0; // y velocity
-    float g = 1; // dy^2
-    float dampening = 0.8;
 
     std::vector<Ball> balls; // Vector to hold the balls
 
@@ -41,6 +36,9 @@ int main()
             ball.move();
             ball.draw(window);
         }
+
+        Player player(100, 50, 100, 100, 5, 5, red); // create a red Player object
+        player.draw(window);
 
         // ***************************************
 

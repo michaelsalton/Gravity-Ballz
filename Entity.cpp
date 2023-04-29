@@ -2,7 +2,7 @@
 #include <math.h>
 
 class Entity {
-private:
+protected:
     int x, y; // Position
     int dx, dy; // Velocity
     sf::Color color;
@@ -18,19 +18,6 @@ public:
     // Destructor
     ~Entity() {
     }
-
-    // Move by updating its position based on its speed
-    void move() {
-        x += dx;
-        y += dy;
-
-        // Simulate gravity by increasing the ball's y velocity
-        // You can adjust the gravity constant as needed
-        const int gravity = 1;
-        dy += gravity;
-    }
-
-    // Add any other necessary public members here
 };
 
 
