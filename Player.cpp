@@ -5,25 +5,25 @@
 
 class Player : public Entity {
 private:
-    int xDimension, yDimension;
+    int width, height;
 
 public:
-    Player(int xDimension, int yDimension) {
-        xDimension = xDimension;
-        yDimension = yDimension;
+    Player(int width, int height, int x, int y, int dx, int dy, sf::Color color) 
+        : Entity(x, y, dx, dy, color) {
+        this->width = width;
+        this->height = height;
     }
     // Destructor
     ~Player() {
     }
 
-    // Draw the rectangle on the screen using a graphics library
     void draw(sf::RenderWindow& window) {
-        // Create a circle shape with the ball's radius
-        sf::RectangleShape shape(xDimension, yDimension);
+        // Create a rectangle shape with the player's width and height
+        sf::RectangleShape shape(sf::Vector2f(width, height));
         shape.setFillColor(color);
-        // Set the position of the circle shape to match the ball's position
+        // Set the position of the rectangle shape to match the player's position
         shape.setPosition(x, y);
-        // Draw the circle shape to the window
+        // Draw the rectangle shape to the window
         window.draw(shape);
     }
 

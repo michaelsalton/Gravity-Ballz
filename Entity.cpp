@@ -4,21 +4,16 @@
 class Entity {
 private:
     int x, y; // Position
-    int xVelocity, yVelocity; // Velocity
+    int dx, dy; // Velocity
     sf::Color color;
 
 public:
-    Entity() {
-        x = 0;
-        y = 0;
-        color = sf::Color::White;
-    }
-    Entity(int startX, int startY, int startSpeedX, int startSpeedY, int startRadius, sf::Color color) {
-        x = startX;
-        y = startY;
-        xVelocity = startSpeedX;
-        yVelocity = startSpeedY;
-        color = color;
+    Entity(int x, int y, int dx, int dy, sf::Color color) {
+        this->x = x;
+        this->y = y;
+        this->dx = dx;
+        this->dy = dy;
+        this->color = color;
     }
     // Destructor
     ~Entity() {
@@ -26,14 +21,16 @@ public:
 
     // Move by updating its position based on its speed
     void move() {
-        x += xVelocity;
-        y += yVelocity;
+        x += dx;
+        y += dy;
 
         // Simulate gravity by increasing the ball's y velocity
         // You can adjust the gravity constant as needed
         const int gravity = 1;
-        yVelocity += gravity;
+        dy += gravity;
     }
 
     // Add any other necessary public members here
 };
+
+
