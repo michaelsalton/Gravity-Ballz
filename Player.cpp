@@ -6,16 +6,12 @@
 class Player : public Entity {
 private:
     int xDimension, yDimension;
-    // Add any other necessary private members here
 
 public:
-    // Constructor
     Player(int xDimension, int yDimension) {
-        Entity();
         xDimension = xDimension;
         yDimension = yDimension;
     }
-
     // Destructor
     ~Player() {
     }

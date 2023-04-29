@@ -7,6 +7,8 @@
 
 // Allan is a nigga
 
+// Allan is a legendary programmer
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1200, 1600), "Gravity Ballz ++");
