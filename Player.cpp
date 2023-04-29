@@ -5,12 +5,10 @@
 
 class Player : public Entity {
 private:
-    int xDimension, yDimension;
+    //int xDimension, yDimension;
 
 public:
-    Player(int xDimension, int yDimension) {
-        xDimension = xDimension;
-        yDimension = yDimension;
+    Player() {
     }
     // Destructor
     ~Player() {
@@ -19,17 +17,12 @@ public:
     // Draw the rectangle on the screen using a graphics library
     void draw(sf::RenderWindow& window) {
         // Create a circle shape with the ball's radius
-        sf::RectangleShape shape(xDimension, yDimension);
+        sf::RectangleShape shape(sf::Vector2f(Entity::xDimension, Entity::yDimension));
         shape.setFillColor(color);
         // Set the position of the circle shape to match the ball's position
         shape.setPosition(x, y);
         // Draw the circle shape to the window
         window.draw(shape);
-    }
-
-       // Get the radius of the ball
-    int getRadius() const {
-        return radius;
     }
 
     // Add any other necessary public members here

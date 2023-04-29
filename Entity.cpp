@@ -2,38 +2,47 @@
 #include <math.h>
 
 class Entity {
-private:
+protected:
     int x, y; // Position
-    int xVelocity, yVelocity; // Velocity
+    int dx, dy; // Velocity
+    int xDimension, yDimension;
     sf::Color color;
 
 public:
     Entity() {
-        x = 0;
-        y = 0;
+        x = 400;
+        y = 400;
         color = sf::Color::White;
     }
-    Entity(int startX, int startY, int startSpeedX, int startSpeedY, int startRadius, sf::Color color) {
-        x = startX;
-        y = startY;
-        xVelocity = startSpeedX;
-        yVelocity = startSpeedY;
-        color = color;
+    Entity(int x, int y, int dx, int dy, int xDim, int yDim, sf::Color color) {
+        this->x = x;
+        this->y = y;
+        this->dx = dx;
+        this->dy = dy;
+        this->xDimension = xDim;
+        this->yDimension = yDim;
+        this->color = color;
     }
     // Destructor
     ~Entity() {
     }
 
-    // Move by updating its position based on its speed
-    void move() {
-        x += xVelocity;
-        y += yVelocity;
-
-        // Simulate gravity by increasing the ball's y velocity
-        // You can adjust the gravity constant as needed
-        const int gravity = 1;
-        yVelocity += gravity;
+    //COLLISIONS
+    //Make Hitboxes
+    sf::FloatRect hitBox() const {
+        return sf::FloatRect(x - xDimension / 2, y - yDimension / 2, xDimension, yDimension);
+    }
+    //Check if hitboxes intersect using .intersects()
+    bool collidesWith(const Entity& other) const {
+        return hitBox().intersects(other.hitBox());
+    }   
+    //Physics (Newton's 3rd Law)
+    void N3L(const Entity& other) {
+        //If they intersect
+        if(hitBox().intersects(other.hitBox())) {
+            //if 
+        }
     }
 
-    // Add any other necessary public members here
+    //##########
 };

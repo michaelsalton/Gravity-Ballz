@@ -5,6 +5,8 @@
 
 #include "Ball.cpp"
 
+using namespace std;
+
 // Allan is a legendary programmer
 
 int main()
@@ -17,7 +19,12 @@ int main()
 
     std::vector<Ball> balls; // Vector to hold the balls
     sf::Color color(rand() % 256, rand() % 256, rand() % 256);
+    //####
+
     Ball ball(400, 400, ball.getX(), ball.getY(), 20, color);
+    Ball ball2(450, 450, 450, 450, 20, color);
+    
+    //####
     while (window.isOpen())
     {
         sf::Event event;
@@ -26,7 +33,7 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-
+        ;
         // ************** CODE HERE **************
 
         // Check if it's time to create a new ball
@@ -36,20 +43,32 @@ int main()
             balls.push_back(ball); // Add the ball to the vector
         }
         //########TEST BED STARTS##########
-
+        
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            ball.moveLeft(); //ball.draw(window);
+            ball.moveLeft();
         }       
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
             ball.moveRight(); 
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-            ball.moveUp(); //ball.draw(window);
+            ball.moveUp();
         }       
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
             ball.moveDown(); 
         }
-
+        
+        if(ball.collidesWith(ball2)) {
+            // Collision detected
+            ball.color = sf::Color::Green;
+            ball2.color = sf::Color::Green;
+            ball.N3L(ball2);
+            
+        }
+        else {
+            ball.color = sf::Color::Black;
+            ball2.color = sf::Color::Black;
+        }
+        ball2.draw(window);
         ball.draw(window);
         //########TEST BED ENDS############
 

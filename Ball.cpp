@@ -3,15 +3,16 @@
 
 #include "Entity.cpp"
 
-class Ball {
+class Ball : public Entity {
 private:
     int x, y; // Position of the ball
-    int xVelocity = 0, yVelocity = 0; // Speed of the ball
-    int radius; // Radius of the ball
-    sf::Color color;
+    int xVelocity, yVelocity; // Speed of the ball
+    int radius = xDimension/2; // Radius of the ball
+    
     // Add any other necessary private members here
 
 public:
+    sf::Color color;
     // Constructor
     Ball(int startX, int startY, int startSpeedX, int startSpeedY, int startRadius, sf::Color color) {
         x = startX;
@@ -27,7 +28,6 @@ public:
     }
 
     // Move the ball by updating its position based on its speed
-    // rework this to be: moveHorizontal() and moveVertical()
     void moveLeft() {
         xVelocity = 5;
         x -= xVelocity;
@@ -57,10 +57,32 @@ public:
         window.draw(shape);
     }
 
-       // Get the radius of the ball
+    // Get the radius of the ball
     int getRadius() const {
         return radius;
     }
+    bool collidesWith(const Ball& other) const {
+        // Find distance between centers of the two balls
+        float distX = x - other.x;
+        float distY = y - other.y;
+        float distance = sqrt(distX * distX + distY * distY);
 
+        // Check if the distance is less than or equal to the sum of the radii
+        return distance <= radius + other.radius;
+    }
+    int setX(int x) {
+        this->x = x;
+    }
+    int setY(int y) {
+        this->y = y;
+    }
+    int setDX(int dxx) {
+        this->xVelocity = dxx;
+        dx = dxx;
+    }
+    int setDY(int dyy) {
+        this->yVelocity = dyy;
+        dy = dyy;
+    }
     // Add any other necessary public members here
 };
