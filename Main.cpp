@@ -2,19 +2,25 @@
 #include <chrono>
 #include <thread>
 #include <iostream>
-
 #include "Ball.cpp"
 #include "Player.cpp"
 #include "Themes.hpp"
+#include "Globals.hpp"
 
-const int SCREEN_WIDTH = 1200;
-const int SCREEN_HEIGHT = 1600;
-
-int main()
-{
+int main() {
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Gravity Ballz ++");
 
     std::vector<Ball> balls; // Vector to hold the balls
+
+    Player player(
+        150, // Width
+        50, // Height
+        SCREEN_WIDTH / 3, // X Position
+        SCREEN_HEIGHT - SCREEN_HEIGHT * 0.1, // Y Position
+        12, // X Velocity
+        0, // Y Velocity
+        green // Colour
+    );
 
     while (window.isOpen())
     {
@@ -28,7 +34,7 @@ int main()
         // ************** CODE HERE **************
 
         // Check if it's time to create a new ball
-        if (rand() % 10 == 0) {
+        if (rand() % 20 == 0) {
             sf::Color color(rand() % 256, rand() % 256, rand() % 256); // Generate a random color
             Ball ball(rand() % 1200, 0, 0, rand() % 10 + 5, rand() % 20 + 10, color); // Generate a random ball
             balls.push_back(ball); // Add the ball to the vector
@@ -40,8 +46,9 @@ int main()
             ball.draw(window);
         }
 
-        Player player(100, 50, 100, 100, 5, 5, red); // create a red Player object
         player.draw(window);
+
+        player.keyboard();
 
         // ***************************************
 

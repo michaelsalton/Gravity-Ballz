@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <math.h>
+#include "Globals.hpp"
 
 class Entity {
 protected:
@@ -17,6 +18,21 @@ public:
     }
     // Destructor
     ~Entity() {
+    }
+
+    void moveUp() {
+        y -= dy;
+    }
+    void moveDwon() {
+        y += dy;
+    }
+    void moveLeft() {
+        if (x >= 0)
+            x -= dx;
+    }
+    void moveRight() {
+        if (x+150 <= SCREEN_WIDTH)
+            x += dx;
     }
 };
 

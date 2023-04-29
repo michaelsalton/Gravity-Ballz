@@ -24,4 +24,11 @@ public:
         window.draw(shape);
     }
 
+    void keyboard() {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+            moveLeft();
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+            moveRight();
+        }
+    }
 };
