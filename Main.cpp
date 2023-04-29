@@ -7,9 +7,12 @@
 #include "Player.cpp"
 #include "Themes.hpp"
 
+const int SCREEN_WIDTH = 1200;
+const int SCREEN_HEIGHT = 1600;
+
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1200, 1600), "Gravity Ballz ++");
+    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Gravity Ballz ++");
 
     std::vector<Ball> balls; // Vector to hold the balls
 
