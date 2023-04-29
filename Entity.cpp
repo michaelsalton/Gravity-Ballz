@@ -6,12 +6,12 @@ private:
     int x, y; // Position
     int xVelocity, yVelocity; // Velocity
     sf::Color color;
-    // Add any other necessary private members here
 
 public:
-    // Constructor
     Entity() {
-        
+        x = 0;
+        y = 0;
+        color = sf::Color::White;
     }
     Entity(int startX, int startY, int startSpeedX, int startSpeedY, int startRadius, sf::Color color) {
         x = startX;
@@ -20,7 +20,6 @@ public:
         yVelocity = startSpeedY;
         color = color;
     }
-
     // Destructor
     ~Entity() {
     }
