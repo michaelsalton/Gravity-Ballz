@@ -13,7 +13,6 @@ public:
         : Entity(x, y, dx, dy, color) {
         this->radius = radius;
     }
-
     // Destructor
     ~Ball() {
     }

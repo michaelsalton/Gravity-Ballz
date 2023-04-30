@@ -5,15 +5,34 @@
 #include <vector>
 #include "Ball.cpp"
 #include "Player.cpp"
+#include "Score.cpp"
 #include "Themes.hpp"
 #include "Globals.hpp"
 
-// MERGE TEST
+int randomNum(int min, int max) {
+    int shift = min;
+    int range = max-min+1;
+    int rum = rand() % range + shift;
+    return rum;
+}
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Gravity Ballz ++");
 
     std::vector<Ball> balls; // Vector to hold the balls
+
+    // Fonts
+    sf::Font font;
+    if (!font.loadFromFile("antonio/Antonio-Bold.ttf")) {
+        // error handling
+    }
+
+    Score score(
+        SCREEN_WIDTH - 100,
+        50,
+        0,
+        font
+    ); // Create a Score object
 
     Player player(
         150, // Width
@@ -34,12 +53,17 @@ int main() {
                 window.close();
         }
 
-        // ************** CODE HERE **************
-
         // Check if it's time to create a new ball
         if (rand() % 50 == 0) {
             sf::Color color(rand() % 256, rand() % 256, rand() % 256); // Generate a random color
-            Ball ball(rand() % 1200, 0, 0, rand() % 10 + 5, rand() % 20 + 10, color); // Generate a random ball
+            Ball ball(
+                randomNum(30, SCREEN_WIDTH - 30), // X Coordinate
+                0,                  // Y Coordinate
+                0,                  // X Velocity
+                rand() % 10 + 5,    // Y Velocity
+                rand() % 20 + 10,   // Radius
+                color               // Color
+            );
             balls.push_back(ball); // Add the ball to the vector
         }
 
@@ -49,18 +73,16 @@ int main() {
             ball.gravity();
             ball.draw(window);
             if (player.hitbox().intersects(ball.hitbox())) {
-                // delete ball here
                 it = balls.erase(it); // erase() returns the iterator to the next element after the erased one
+                score.increment();
             } else {
                 ++it; // increment here
             }
         }
 
+        score.draw(window);
         player.draw(window);
-
         player.keyboard();
-
-        // ***************************************
 
         // Display the window
         window.display();
