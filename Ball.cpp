@@ -18,6 +18,12 @@ public:
     ~Ball() {
     }
 
+    // Get the hitbox of the ball
+    sf::IntRect hitbox() {
+        sf::IntRect hitbox(x - radius, y - radius, radius * 2, radius * 2);
+        return hitbox;
+    }
+
     // Move the ball by updating its position based on its speed
     void gravity() {
         x += dx;

@@ -17,6 +17,12 @@ public:
     ~Player() {
     }
 
+    // Get the hitbox of the player
+    sf::IntRect hitbox() {
+        sf::IntRect hitbox(x, y, width, height);
+        return hitbox;
+    }
+
     void draw(sf::RenderWindow& window) {
         sf::RectangleShape shape(sf::Vector2f(width, height));
         shape.setFillColor(color);

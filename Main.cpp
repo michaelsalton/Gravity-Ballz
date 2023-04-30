@@ -2,6 +2,7 @@
 #include <chrono>
 #include <thread>
 #include <iostream>
+#include <vector>
 #include "Ball.cpp"
 #include "Player.cpp"
 #include "Themes.hpp"
@@ -34,16 +35,23 @@ int main() {
         // ************** CODE HERE **************
 
         // Check if it's time to create a new ball
-        if (rand() % 20 == 0) {
+        if (rand() % 50 == 0) {
             sf::Color color(rand() % 256, rand() % 256, rand() % 256); // Generate a random color
             Ball ball(rand() % 1200, 0, 0, rand() % 10 + 5, rand() % 20 + 10, color); // Generate a random ball
             balls.push_back(ball); // Add the ball to the vector
         }
 
         // Move and draw all the balls
-        for (auto& ball : balls) {
+        for (auto it = balls.begin(); it != balls.end(); /*no increment here*/) {
+            Ball& ball = *it;
             ball.gravity();
             ball.draw(window);
+            if (player.hitbox().intersects(ball.hitbox())) {
+                // delete ball here
+                it = balls.erase(it); // erase() returns the iterator to the next element after the erased one
+            } else {
+                ++it; // increment here
+            }
         }
 
         player.draw(window);

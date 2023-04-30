@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "Entity.hpp"
 #include "Globals.hpp"
 
