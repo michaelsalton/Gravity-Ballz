@@ -8,6 +8,8 @@
 #include "Themes.hpp"
 #include "Globals.hpp"
 
+// MERGE TEST
+
 int main() {
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Gravity Ballz ++");
 
