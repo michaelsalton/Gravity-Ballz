@@ -42,7 +42,7 @@ int main() {
 
         // Move and draw all the balls
         for (auto& ball : balls) {
-            ball.move();
+            ball.gravity();
             ball.draw(window);
         }
 

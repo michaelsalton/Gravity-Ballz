@@ -1,22 +1,17 @@
 #include <SFML/Graphics.hpp>
 #include <math.h>
 
-class Ball {
+#include "Entity.hpp"
+
+class Ball : public Entity{
 private:
-    int x, y; // Position of the ball
-    int dx, dy; // Speed of the ball
     int radius; // Radius of the ball
-    sf::Color color;
 
 public:
     // Constructor for a ball with a color
-    Ball(int x, int y, int dx, int dy, int radius, sf::Color color) {
-        this->x = x;
-        this->y = y;
-        this->dx = dx;
-        this->dy = dy;
+    Ball(int x, int y, int dx, int dy, int radius, sf::Color color)
+        : Entity(x, y, dx, dy, color) {
         this->radius = radius;
-        this->color = color;
     }
 
     // Destructor
@@ -24,10 +19,10 @@ public:
     }
 
     // Move the ball by updating its position based on its speed
-    void move() {
+    void gravity() {
         x += dx;
         y += dy;
-        const int gravity = 0.5;
+        const float gravity = 0.25;
         dy += gravity;
     }
 
