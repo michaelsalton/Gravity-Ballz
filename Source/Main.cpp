@@ -57,30 +57,50 @@ int main() {
 
         // Check if it's time to create a new ball
         if (rand() % 50 == 0) {
-            sf::Color color(rand() % 256, rand() % 256, rand() % 256); // Generate a random color
-            Ball ball(
+            //sf::Color color(rand() % 256, rand() % 256, rand() % 256); // Generate a random color
+            Ball enemy(
                 randomNum(30, SCREEN_WIDTH - 30), // X Coordinate
                 -50,                  // Y Coordinate
                 0,                  // X Velocity
                 rand() % 10 + 5,    // Y Velocity
                 rand() % 20 + 10,   // Radius
-                color               // Color
+                red               // Color
             );
-            balls.push_back(ball); // Add the ball to the vector
+            balls.push_back(enemy);
+            Ball coin(
+                randomNum(30, SCREEN_WIDTH - 30), // X Coordinate
+                -50,                // Y Coordinate
+                0,                  // X Velocity
+                rand() % 10 + 5,    // Y Velocity
+                20,   // Radius
+                gold               // Color
+            );
+            balls.push_back(coin); // Add the ball to the vector
         }
 
         // Move and draw all the balls
-        for (auto it = balls.begin(); it != balls.end(); /*no increment here*/) {
-            Ball& ball = *it;
-            ball.gravity();
-            ball.draw(window);
-            if (player.hitbox().intersects(ball.hitbox())) {
-                it = balls.erase(it);
-                score.increment();
-            } else {
-                ++it; // increment here
+        for (auto ball = balls.begin(); ball != balls.end(); ++ball) {
+            ball->gravity();
+            ball->draw(window);
+            if (player.hitbox().intersects(ball->hitbox())) {
+                if (ball->getColor() == red) {
+                    // handle collision with enemy ball
+                    // for example, remove the ball from the vector and decrement the score
+                    ball = balls.erase(ball);
+                    score.decrement(2);
+                    // since we have erased an element from the vector, we need to decrement the iterator
+                    --ball;
+                } else if (ball->getColor() == gold) {
+                    // handle collision with coin
+                    // for example, remove the ball from the vector and increment the score
+                    ball = balls.erase(ball);
+                    score.increment(1);
+                    // since we have erased an element from the vector, we need to decrement the iterator
+                    --ball;
+                }
             }
         }
+
 
         score.draw(window);
         player.draw(window);

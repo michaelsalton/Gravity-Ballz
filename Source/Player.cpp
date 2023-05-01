@@ -31,9 +31,11 @@ public:
     }
 
     void keyboard() {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)
+        || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
             moveLeft();
-        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)
+        || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             moveRight();
         }
     }

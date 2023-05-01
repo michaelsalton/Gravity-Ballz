@@ -28,3 +28,7 @@ void Entity::moveRight() {
     if (x+150 <= SCREEN_WIDTH)
         x += dx;
 }
+
+sf::Color Entity::getColor() {
+    return color;
+}

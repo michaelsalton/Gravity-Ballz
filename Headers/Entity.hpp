@@ -17,6 +17,7 @@ public:
     void moveDwon();
     void moveLeft();
     void moveRight();
+    sf::Color getColor();
 };
 
 #endif

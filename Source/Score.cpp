@@ -22,8 +22,13 @@ public:
     }
 
     // Increment the score by 1
-    void increment() {
-        score++;
+    void increment(int amount) {
+        score+=amount;
+    }
+
+    // Increment the score by 1
+    void decrement(int amount) {
+        score-=amount;
     }
 
     void setScore(int add) {
