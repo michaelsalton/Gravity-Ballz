@@ -1,6 +1,6 @@
 # Folders
 dependencies/
-.vscode/
+vscode/
 
 # Files
 Makefile

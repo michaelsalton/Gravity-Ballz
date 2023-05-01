@@ -13,7 +13,7 @@
                 "${fileDirname}/${fileBasenameNoExtension}",
                 "-I${workspaceFolder}/dependencies/include",
                 "-L${workspaceFolder}/dependencies/library",
-                "${workspaceFolder}/*.cpp",
+                "${workspaceFolder}/Source/*.cpp",
                 "-o",
                 "${workspaceFolder}/app",
             ],
