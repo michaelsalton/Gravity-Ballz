@@ -6,8 +6,8 @@
 #include "Ball.cpp"
 #include "Player.cpp"
 #include "Score.cpp"
-#include "Themes.hpp"
-#include "Globals.hpp"
+#include "../Headers/Themes.hpp"
+#include "../Headers/Globals.hpp"
 
 int randomNum(int min, int max) {
     int shift = min;
@@ -23,7 +23,7 @@ int main() {
 
     // Fonts
     sf::Font font;
-    if (!font.loadFromFile("antonio/Antonio-Bold.ttf")) {
+    if (!font.loadFromFile("/Users/michaelsalton/Documents/PROJECTS/Gravity-Ballz/Media/Fonts/caviar/Caviar_Dreams_Bold.ttf")) {
         // error handling
     }
 
@@ -58,7 +58,7 @@ int main() {
             sf::Color color(rand() % 256, rand() % 256, rand() % 256); // Generate a random color
             Ball ball(
                 randomNum(30, SCREEN_WIDTH - 30), // X Coordinate
-                0,                  // Y Coordinate
+                -50,                  // Y Coordinate
                 0,                  // X Velocity
                 rand() % 10 + 5,    // Y Velocity
                 rand() % 20 + 10,   // Radius
@@ -73,7 +73,7 @@ int main() {
             ball.gravity();
             ball.draw(window);
             if (player.hitbox().intersects(ball.hitbox())) {
-                it = balls.erase(it); // erase() returns the iterator to the next element after the erased one
+                it = balls.erase(it);
                 score.increment();
             } else {
                 ++it; // increment here

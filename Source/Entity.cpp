@@ -1,7 +1,7 @@
 #include <math.h>
 
-#include "Entity.hpp"
-#include "Globals.hpp"
+#include "../Headers/Entity.hpp"
+#include "../Headers/Globals.hpp"
 
 Entity::Entity(int x, int y, int dx, int dy, sf::Color color) {
     this->x = x;

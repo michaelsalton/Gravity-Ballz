@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <math.h>
 
-#include "Entity.hpp"
+#include "../Headers/Entity.hpp"
 
 class Ball : public Entity{
 private:
