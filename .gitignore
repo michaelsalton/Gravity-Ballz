@@ -3,7 +3,7 @@ dependencies/
 .vscode/
 
 # Files
-/Makefile
+Makefile
 
 # Prerequisites
 *.d
