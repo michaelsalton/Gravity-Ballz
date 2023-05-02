@@ -2,6 +2,7 @@
 
 class State {
 private:
+    bool startMenu = true;
     bool paused = false;
     bool musicIsOn = false;
 
@@ -30,9 +31,5 @@ public:
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
             pause();
         }
-    }
-
-
-
-    
+    } 
 };

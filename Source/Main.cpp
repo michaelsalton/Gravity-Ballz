@@ -25,6 +25,16 @@ int main() {
 
     std::vector<Ball> balls; // Vector to hold the balls
 
+    sf::Texture eyeTex;
+    if (!eyeTex.loadFromFile("Media/Images/eye.png")){
+    }
+    sf::Texture coinTex;
+    if (!coinTex.loadFromFile("Media/Images/coin.png")){
+    }
+    sf::Texture playerTex;
+    if (!playerTex.loadFromFile("Media/Images/player.png")){
+    }
+
     // Font
     sf::Font font;
     if (!font.loadFromFile("Media/Fonts/caviar/Caviar_Dreams_Bold.ttf")) {
@@ -59,16 +69,16 @@ int main() {
         SCREEN_HEIGHT - SCREEN_HEIGHT * 0.1, // Y position
         12, // X velocity
         0, // Y velocity
-        green // Colour
+        playerTex // Texture
     );
 
     // State machine
     State state;
 
+    music.setVolume(10);
     music.play();
 
-    while (window.isOpen())
-    {
+    while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)){
 
@@ -87,7 +97,7 @@ int main() {
         }
         if (!state.isPaused()) {
             // Check if it's time to create a new ball
-            if (rand() % 50 == 0) {
+            if (rand() % 80 == 0) {
                 //sf::Color color(rand() % 256, rand() % 256, rand() % 256); // Generate a random color
                 Ball enemy(
                     randomNum(30, SCREEN_WIDTH - 30), // X Coordinate
@@ -95,7 +105,8 @@ int main() {
                     0,                  // X Velocity
                     rand() % 10 + 5,    // Y Velocity
                     rand() % 20 + 10,   // Radius
-                    red               // Color
+                    eyeTex,               // Texture
+                    true
                 );
                 balls.push_back(enemy);
                 Ball coin(
@@ -104,7 +115,8 @@ int main() {
                     0,                  // X Velocity
                     rand() % 10 + 5,    // Y Velocity
                     20,   // Radius
-                    gold               // Color
+                    coinTex,               // Texture
+                    false
                 );
                 balls.push_back(coin); // Add the ball to the vector
             }
@@ -113,15 +125,15 @@ int main() {
             for (auto ball = balls.begin(); ball != balls.end(); ++ball) {
                 ball->gravity();
                 ball->draw(window);
-                if (player.hitbox().intersects(ball->hitbox())) {
-                    if (ball->getColor() == red) {
+                if (player.hitbox(window).intersects(ball->hitbox(window))) {
+                    if (ball->enemy()) {
                         // handle collision with enemy ball
                         // for example, remove the ball from the vector and decrement the score
                         ball = balls.erase(ball);
                         score.decrement(2);
                         // since we have erased an element from the vector, we need to decrement the iterator
                         --ball;
-                    } else if (ball->getColor() == gold) {
+                    } else if (!ball->enemy()) {
                         // handle collision with coin
                         // for example, remove the ball from the vector and increment the score
                         ball = balls.erase(ball);

@@ -8,8 +8,8 @@ private:
     int width, height;
 
 public:
-    Player(int width, int height, int x, int y, int dx, int dy, sf::Color color) 
-        : Entity(x, y, dx, dy, color) {
+    Player(int width, int height, int x, int y, int dx, int dy, sf::Texture texture) 
+        : Entity(x, y, dx, dy, texture, false) {
         this->width = width;
         this->height = height;
     }
@@ -18,16 +18,25 @@ public:
     }
 
     // Get the hitbox of the player
-    sf::IntRect hitbox() {
-        sf::IntRect hitbox(x, y, width, height);
+    sf::IntRect hitbox(sf::RenderWindow& window) {
+        sf::IntRect hitbox(x, y, height, width);
+        drawHitbox(window);
         return hitbox;
+    }
+
+    void drawHitbox(sf::RenderWindow& window) {
+        sf::RectangleShape rectangle(sf::Vector2f(height, width));
+        rectangle.setPosition(x, y);
+        rectangle.setFillColor(sf::Color::Red);
+        window.draw(rectangle);
     }
 
     void draw(sf::RenderWindow& window) {
         sf::RectangleShape shape(sf::Vector2f(width, height));
-        shape.setFillColor(color);
-        shape.setPosition(x, y);
-        window.draw(shape);
+        sf::Sprite sprite;
+        sprite.setTexture(texture);
+        sprite.setPosition(x, y);
+        window.draw(sprite);
     }
 
     void keyboard() {

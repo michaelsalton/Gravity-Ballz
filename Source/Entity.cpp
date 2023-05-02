@@ -3,12 +3,13 @@
 #include "../Headers/Entity.hpp"
 #include "../Headers/Globals.hpp"
 
-Entity::Entity(int x, int y, int dx, int dy, sf::Color color) {
+Entity::Entity(int x, int y, int dx, int dy, sf::Texture texture, bool isEnemy) {
     this->x = x;
     this->y = y;
     this->dx = dx;
     this->dy = dy;
-    this->color = color;
+    this->texture = texture;
+    this->isEnemy = isEnemy;
 }
 
 Entity::~Entity() {
@@ -29,6 +30,6 @@ void Entity::moveRight() {
         x += dx;
 }
 
-sf::Color Entity::getColor() {
-    return color;
+sf::Texture Entity::getTexture() {
+    return texture;
 }
