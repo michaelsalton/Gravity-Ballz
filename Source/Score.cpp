@@ -31,8 +31,8 @@ public:
         score-=amount;
     }
 
-    void setScore(int add) {
-        score += add;
+    void setScore(int newScore) {
+        score = newScore;
     }
 
     // Get the current score

@@ -1,6 +1,7 @@
 // Gravity Ballz ++ 
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <chrono>
 #include <thread>
 #include <iostream>
@@ -25,9 +26,16 @@ int main() {
 
     // Fonts
     sf::Font font;
-    if (!font.loadFromFile("/Users/michaelsalton/Documents/PROJECTS/Gravity-Ballz/Media/Fonts/caviar/Caviar_Dreams_Bold.ttf")) {
+    if (!font.loadFromFile("Media/Fonts/caviar/Caviar_Dreams_Bold.ttf")) {
         // error handling
     }
+
+    sf::Music music;
+    if (!music.openFromFile("Media/Sounds/Music/skellige.wav")) {
+        // error loading file
+        return -1;
+    }
+    music.play();
 
     Score score(
         SCREEN_WIDTH - 100,
