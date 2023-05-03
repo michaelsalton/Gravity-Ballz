@@ -34,6 +34,14 @@ int main() {
     sf::Texture playerTex;
     if (!playerTex.loadFromFile("Media/Images/player.png")){
     }
+    sf::Texture wall;
+        if (!wall.loadFromFile("Media/Images/wall.png")){
+    }
+    wall.setRepeated(true);
+
+    sf::Sprite wallSprite;
+    wallSprite.setTexture(wall);
+    wallSprite.setTextureRect(sf::IntRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT));
 
     // Font
     sf::Font font;
@@ -75,7 +83,7 @@ int main() {
     // State machine
     State state;
 
-    music.setVolume(10);
+    music.setVolume(3);
     music.play();
 
     while (window.isOpen()) {
@@ -97,24 +105,26 @@ int main() {
         }
         if (!state.isPaused()) {
             // Check if it's time to create a new ball
-            if (rand() % 80 == 0) {
+            if (rand() % 100 == 0) {
                 //sf::Color color(rand() % 256, rand() % 256, rand() % 256); // Generate a random color
                 Ball enemy(
                     randomNum(30, SCREEN_WIDTH - 30), // X Coordinate
-                    -50,                  // Y Coordinate
+                    -200,                  // Y Coordinate
                     0,                  // X Velocity
                     rand() % 10 + 5,    // Y Velocity
-                    rand() % 20 + 10,   // Radius
+                    randomNum(2, 10),   // Scale
                     eyeTex,               // Texture
                     true
                 );
                 balls.push_back(enemy);
+            }
+            if (rand() % 90 == 0) {
                 Ball coin(
                     randomNum(30, SCREEN_WIDTH - 30), // X Coordinate
-                    -50,                // Y Coordinate
+                    -200,                // Y Coordinate
                     0,                  // X Velocity
                     rand() % 10 + 5,    // Y Velocity
-                    20,   // Radius
+                    2,   // Scale
                     coinTex,               // Texture
                     false
                 );
@@ -155,7 +165,8 @@ int main() {
         // Display the window
         window.display();
         // Set background colour
-        window.clear(sf::Color(230, 196, 147));
+        window.clear();
+        window.draw(wallSprite);
         // Wait for 1/60th of a second (60 FPS)
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }

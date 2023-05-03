@@ -19,13 +19,13 @@ public:
 
     // Get the hitbox of the player
     sf::IntRect hitbox(sf::RenderWindow& window) {
-        sf::IntRect hitbox(x, y, height, width);
+        sf::IntRect hitbox(x, y, width, height);
         drawHitbox(window);
         return hitbox;
     }
 
     void drawHitbox(sf::RenderWindow& window) {
-        sf::RectangleShape rectangle(sf::Vector2f(height, width));
+        sf::RectangleShape rectangle(sf::Vector2f(width, height));
         rectangle.setPosition(x, y);
         rectangle.setFillColor(sf::Color::Red);
         window.draw(rectangle);
