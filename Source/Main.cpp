@@ -76,7 +76,7 @@ int main() {
         SCREEN_WIDTH / 3, // X position
         SCREEN_HEIGHT - SCREEN_HEIGHT * 0.1, // Y position
         12, // X velocity
-        0, // Y velocity
+        5, // Y velocity
         playerTex // Texture
     );
 
@@ -166,6 +166,7 @@ int main() {
         window.display();
         // Set background colour
         window.clear();
+        // Draw tiles
         window.draw(wallSprite);
         // Wait for 1/60th of a second (60 FPS)
         std::this_thread::sleep_for(std::chrono::milliseconds(16));

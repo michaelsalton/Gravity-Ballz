@@ -47,5 +47,9 @@ public:
         || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             moveRight();
         }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
+        || sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+            moveUp();
+        }
     }
 };
