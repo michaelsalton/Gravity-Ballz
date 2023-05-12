@@ -9,16 +9,22 @@ protected:
     int dx, dy; // Velocity
     sf::Texture texture;
     bool isEnemy;
+    float jumpVelocity = 40;
+    bool isJumping = false;
+    bool isBottom = true;
 
 public:
     Entity(int x, int y, int dx, int dy, sf::Texture texture, bool isEnemy);
     ~Entity();
 
-    void moveUp();
-    void moveDwon();
+    friend class Physics;
+
     void moveLeft();
     void moveRight();
+    void jump();
+    void gravity();
     sf::Texture getTexture();
+    std::pair<int,int> getPosition();
 };
 
 #endif

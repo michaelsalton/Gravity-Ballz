@@ -31,14 +31,6 @@ public:
         window.draw(rectangle);
     }
 
-    // Move the ball by updating its position based on its speed
-    void gravity() {
-        x += dx;
-        y += dy;
-        const float gravity = 0.25;
-        dy += gravity;
-    }
-
     // Draw the ball on the screen using a graphics library
     void draw(sf::RenderWindow& window) {
         // Ball has a color

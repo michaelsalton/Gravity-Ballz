@@ -12,6 +12,10 @@
 #include "../Headers/Themes.hpp"
 #include "../Headers/Globals.hpp"
 #include "State.cpp"
+#include "Physics.cpp"
+
+const int enemySpawnRate = 200;
+const int coinSpawnRate = 400;
 
 int randomNum(int min, int max) {
     int shift = min;
@@ -26,13 +30,13 @@ int main() {
     std::vector<Ball> balls; // Vector to hold the balls
 
     sf::Texture eyeTex;
-    if (!eyeTex.loadFromFile("Media/Images/eye.png")){
+    if (!eyeTex.loadFromFile("Media/Images/spike.png")){
     }
     sf::Texture coinTex;
-    if (!coinTex.loadFromFile("Media/Images/coin.png")){
+    if (!coinTex.loadFromFile("Media/Images/coin2.gif")){
     }
     sf::Texture playerTex;
-    if (!playerTex.loadFromFile("Media/Images/player.png")){
+    if (!playerTex.loadFromFile("Media/Images/dwarf2.png")){
     }
     sf::Texture wall;
         if (!wall.loadFromFile("Media/Images/wall.png")){
@@ -71,17 +75,19 @@ int main() {
 
     // Player object
     Player player(
-        150, // Width
-        50, // Height
+        playerWidth, // Width
+        playerHeight, // Height
         SCREEN_WIDTH / 3, // X position
-        SCREEN_HEIGHT - SCREEN_HEIGHT * 0.1, // Y position
+        SCREEN_HEIGHT - playerHeight, // Y position
         12, // X velocity
-        5, // Y velocity
+        0, // Y velocity
         playerTex // Texture
     );
 
     // State machine
     State state;
+
+    Physics physics;
 
     music.setVolume(3);
     music.play();
@@ -105,26 +111,25 @@ int main() {
         }
         if (!state.isPaused()) {
             // Check if it's time to create a new ball
-            if (rand() % 100 == 0) {
-                //sf::Color color(rand() % 256, rand() % 256, rand() % 256); // Generate a random color
+            if (rand() % enemySpawnRate == 0) {
                 Ball enemy(
                     randomNum(30, SCREEN_WIDTH - 30), // X Coordinate
                     -200,                  // Y Coordinate
                     0,                  // X Velocity
-                    rand() % 10 + 5,    // Y Velocity
-                    randomNum(2, 10),   // Scale
+                    randomNum(7,10),    // Y Velocity
+                    randomNum(0.3, 1),   // Scale
                     eyeTex,               // Texture
                     true
                 );
                 balls.push_back(enemy);
             }
-            if (rand() % 90 == 0) {
+            if (rand() % coinSpawnRate == 0) {
                 Ball coin(
                     randomNum(30, SCREEN_WIDTH - 30), // X Coordinate
                     -200,                // Y Coordinate
                     0,                  // X Velocity
-                    rand() % 10 + 5,    // Y Velocity
-                    2,   // Scale
+                    randomNum(7, 10),    // Y Velocity
+                    3,   // Scale
                     coinTex,               // Texture
                     false
                 );
@@ -153,6 +158,8 @@ int main() {
                     }
                 }
             }
+
+            player.gravity();
 
             score.draw(window);
             player.draw(window);
