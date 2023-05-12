@@ -1,51 +1,79 @@
 #include <SFML/Graphics.hpp>
-#include <math.h>
-
-#include "../Headers/Entity.hpp"
 #include "../Headers/Globals.hpp"
+#include <iostream>
 
-class Player : public Entity {
+class Player {
 private:
-    int width, height;
-    int grav = 100;
-    float jumpVelocity = 100;
+    // Texture
+    sf::Texture texture;
+    sf::Sprite sprite;
+
+    // Movement
+    float x;
+    float y;
+    float speed;
+    float jumpHeight;
+
+    // Physics
+    float grav = 1;
+    float dy = 0;
     bool isJumping = false;
-    bool isBottom = true;
+    bool onGround = false;
+    float jumpSpeed = 20;
 
 public:
-    Player(int width, int height, int x, int y, int dx, int dy, sf::Texture texture) 
-        : Entity(x, y, dx, dy, texture, false) {
-        this->width = width;
-        this->height = height;
+    Player();
+    Player(std::string texturePath, float x, float speed, float jumpHeight) {
+        this->x = x;
+        this->y = 0;
+        this->speed = speed;
+        this->jumpHeight = jumpHeight;
+        if (!texture.loadFromFile(texturePath)){
+            std::cerr << "Error loading texture\n";
+        }
+        sprite.setTexture(texture);
+        sprite.setTextureRect(sf::IntRect(39, 56, 52, 72));
+        sprite.setScale(1.5,1.5);
     }
-    // Destructor
-    ~Player() {
+
+    void draw(sf::RenderWindow &window) {
+        gravity();
+        sprite.setPosition(x,y);
+        window.draw(sprite);
     }
 
     // Get the hitbox of the player
     sf::IntRect hitbox(sf::RenderWindow& window) {
-        sf::IntRect hitbox(x+width/3, y+height*0.1, width*0.8, height*0.9);
-        //drawHitbox(window);
+        sf::IntRect hitbox(x, y, getSize().width, getSize().height);
+        drawHitbox(window, hitbox);
         return hitbox;
     }
 
-    void drawHitbox(sf::RenderWindow& window) {
-        sf::RectangleShape rectangle(sf::Vector2f(width*0.8, height*0.9));
-        rectangle.setPosition(x+width/3, y+height*0.1);
+    void drawHitbox(sf::RenderWindow& window, sf::IntRect hitbox) {
+        sf::RectangleShape rectangle(sf::Vector2f(hitbox.width, hitbox.height));
+        rectangle.setPosition(hitbox.left, hitbox.top);
         rectangle.setFillColor(sf::Color::Red);
         window.draw(rectangle);
     }
 
-    void draw(sf::RenderWindow& window) {
-        sf::RectangleShape shape(sf::Vector2f(width, height));
-        sf::Sprite sprite;
-        sprite.setPosition(x, y);
-        sprite.setTexture(texture);
-        window.draw(sprite);
+    sf::FloatRect getSize() {
+        return sprite.getGlobalBounds();
     }
 
-    std::pair<int,int> getSize() {
-        return std::make_pair(width, height);;
+    float playerBottom() {
+        return SCREEN_HEIGHT - getSize().height;
+    }
+
+    void moveLeft() {
+        if (x >= 0) {
+            x -= speed;
+        }
+    }
+
+    void moveRight() {
+        if (x + getSize().width <= SCREEN_WIDTH) {
+            x += speed;
+        }
     }
 
     void keyboard() {
@@ -58,24 +86,37 @@ public:
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
         || sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-            if (isBottom && !isJumping) {
+            if (onGround && !isJumping) {
                 isJumping = true;
-                isBottom = false;
-                jump();
+                onGround = false;
             }
         }
     }
 
     void gravity() {
+        //std::cout << "Y: " << y << " Bottom: " << getPlayerBottom() << std::endl;
         if (!isJumping) {
-            y += grav;
+            if (y < playerBottom()) {
+                y -= dy;
+                dy -= grav;
+            }
+            else if (!onGround) {
+                y = playerBottom();
+                onGround = true;
+                isJumping = false;
+                dy = 0;
+            }
         }
-        if (y >= SCREEN_HEIGHT-playerHeight) {
-            y = SCREEN_HEIGHT-playerHeight;
-            isBottom = true;
-        }
-        if (y <= SCREEN_HEIGHT-playerHeight) {
-            isJumping = false;
+        else if (isJumping) {
+            if (y > SCREEN_HEIGHT - jumpHeight) {
+                y -= dy;
+                dy = jumpSpeed;
+                dy -= grav;
+            }
+            else if (y <= SCREEN_HEIGHT - jumpHeight) {
+                isJumping = false;
+                dy = 0;
+            }
         }
     }
 };

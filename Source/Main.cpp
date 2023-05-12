@@ -12,10 +12,11 @@
 #include "../Headers/Themes.hpp"
 #include "../Headers/Globals.hpp"
 #include "State.cpp"
-#include "Physics.cpp"
+#include <SFML/System.hpp>
+#include "Background.cpp"
 
-const int enemySpawnRate = 200;
-const int coinSpawnRate = 400;
+const int enemySpawnRate = 100;
+const int coinSpawnRate = 200;
 
 int randomNum(int min, int max) {
     int shift = min;
@@ -29,25 +30,7 @@ int main() {
 
     std::vector<Ball> balls; // Vector to hold the balls
 
-    sf::Texture eyeTex;
-    if (!eyeTex.loadFromFile("Media/Images/spike.png")){
-    }
-    sf::Texture coinTex;
-    if (!coinTex.loadFromFile("Media/Images/coin2.gif")){
-    }
-    sf::Texture playerTex;
-    if (!playerTex.loadFromFile("Media/Images/dwarf2.png")){
-    }
-    sf::Texture wall;
-        if (!wall.loadFromFile("Media/Images/wall.png")){
-    }
-    wall.setRepeated(true);
-
-    sf::Sprite wallSprite;
-    wallSprite.setTexture(wall);
-    wallSprite.setTextureRect(sf::IntRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT));
-
-    // Font
+    // Fonts
     sf::Font font;
     if (!font.loadFromFile("Media/Fonts/caviar/Caviar_Dreams_Bold.ttf")) {
         // error handling
@@ -65,7 +48,7 @@ int main() {
     pauseMessage.setPosition(window.getSize().x / 2 - pauseMessage.getLocalBounds().width / 2,
         window.getSize().y / 2 - pauseMessage.getLocalBounds().height / 2);
 
-    // Score object
+    // Score
     Score score(
         SCREEN_WIDTH - 100, // X position
         50, // Y position
@@ -73,21 +56,23 @@ int main() {
         font // Font
     );
 
-    // Player object
-    Player player(
-        playerWidth, // Width
-        playerHeight, // Height
-        SCREEN_WIDTH / 3, // X position
-        SCREEN_HEIGHT - playerHeight, // Y position
-        12, // X velocity
-        0, // Y velocity
-        playerTex // Texture
+    // Background
+    Background background (
+        "Media/Images/wall.png"
+    );
+
+    // Player
+    Player player (
+        "Media/Images/Musketeer/Idle.png",
+        SCREEN_WIDTH/3, // X Position
+        10,
+        400
     );
 
     // State machine
     State state;
 
-    Physics physics;
+    sf::Clock clock;
 
     music.setVolume(3);
     music.play();
@@ -113,25 +98,25 @@ int main() {
             // Check if it's time to create a new ball
             if (rand() % enemySpawnRate == 0) {
                 Ball enemy(
+                    "Media/Images/spike.png",
                     randomNum(30, SCREEN_WIDTH - 30), // X Coordinate
                     -200,                  // Y Coordinate
                     0,                  // X Velocity
                     randomNum(7,10),    // Y Velocity
                     randomNum(0.3, 1),   // Scale
-                    eyeTex,               // Texture
-                    true
+                    true                 // isEnemy
                 );
                 balls.push_back(enemy);
             }
             if (rand() % coinSpawnRate == 0) {
                 Ball coin(
+                    "Media/Images/coin2.gif",
                     randomNum(30, SCREEN_WIDTH - 30), // X Coordinate
                     -200,                // Y Coordinate
                     0,                  // X Velocity
                     randomNum(7, 10),    // Y Velocity
-                    3,   // Scale
-                    coinTex,               // Texture
-                    false
+                    3,                  // Scale
+                    false               // isEnemy
                 );
                 balls.push_back(coin); // Add the ball to the vector
             }
@@ -141,26 +126,24 @@ int main() {
                 ball->gravity();
                 ball->draw(window);
                 if (player.hitbox(window).intersects(ball->hitbox(window))) {
+                    ball = balls.erase(ball);
                     if (ball->enemy()) {
                         // handle collision with enemy ball
                         // for example, remove the ball from the vector and decrement the score
-                        ball = balls.erase(ball);
                         score.decrement(2);
                         // since we have erased an element from the vector, we need to decrement the iterator
                         --ball;
                     } else if (!ball->enemy()) {
                         // handle collision with coin
                         // for example, remove the ball from the vector and increment the score
-                        ball = balls.erase(ball);
                         score.increment(1);
                         // since we have erased an element from the vector, we need to decrement the iterator
                         --ball;
                     }
                 }
             }
-
-            player.gravity();
-
+            
+            // Draw Objects
             score.draw(window);
             player.draw(window);
             player.keyboard();
@@ -173,8 +156,8 @@ int main() {
         window.display();
         // Set background colour
         window.clear();
-        // Draw tiles
-        window.draw(wallSprite);
+        // Draw background
+        background.draw(window);
         // Wait for 1/60th of a second (60 FPS)
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }
