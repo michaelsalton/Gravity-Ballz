@@ -63,7 +63,7 @@ int main() {
 
     // Player
     Player player (
-        "Media/Images/Musketeer/Idle.png",
+        "Media/Images/girl_spritesheet.png",
         SCREEN_WIDTH/3, // X Position
         10,
         400
@@ -101,21 +101,17 @@ int main() {
                     "Media/Images/spike.png",
                     randomNum(30, SCREEN_WIDTH - 30), // X Coordinate
                     -200,                  // Y Coordinate
-                    0,                  // X Velocity
-                    randomNum(7,10),    // Y Velocity
-                    randomNum(0.3, 1),   // Scale
+                    randomNum(1,1),    // Y Velocity
                     true                 // isEnemy
                 );
                 balls.push_back(enemy);
             }
             if (rand() % coinSpawnRate == 0) {
                 Ball coin(
-                    "Media/Images/coin2.gif",
+                    "Media/Images/coin.png",
                     randomNum(30, SCREEN_WIDTH - 30), // X Coordinate
                     -200,                // Y Coordinate
-                    0,                  // X Velocity
-                    randomNum(7, 10),    // Y Velocity
-                    3,                  // Scale
+                    randomNum(1, 1),    // Y Velocity
                     false               // isEnemy
                 );
                 balls.push_back(coin); // Add the ball to the vector
@@ -123,19 +119,19 @@ int main() {
 
             // Move and draw all the balls
             for (auto ball = balls.begin(); ball != balls.end(); ++ball) {
-                ball->gravity();
                 ball->draw(window);
                 if (player.hitbox(window).intersects(ball->hitbox(window))) {
-                    ball = balls.erase(ball);
                     if (ball->enemy()) {
                         // handle collision with enemy ball
                         // for example, remove the ball from the vector and decrement the score
+                        ball = balls.erase(ball);
                         score.decrement(2);
                         // since we have erased an element from the vector, we need to decrement the iterator
                         --ball;
                     } else if (!ball->enemy()) {
                         // handle collision with coin
                         // for example, remove the ball from the vector and increment the score
+                        ball = balls.erase(ball);
                         score.increment(1);
                         // since we have erased an element from the vector, we need to decrement the iterator
                         --ball;

@@ -71,5 +71,6 @@
         "utility": "cpp",
         "random": "cpp",
         "numeric": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "enabled"
 }

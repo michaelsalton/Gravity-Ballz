@@ -9,15 +9,14 @@ private:
     sf::Sprite sprite;
 
 public:
-    Background();
     Background(std::string texturePath) {
         if (!texture.loadFromFile(texturePath)){
             std::cerr << "Error loading texture\n";
         }
-        sprite.setScale(0.5, 0.5);
+        sprite.setScale(1, 1);
         sprite.setTexture(texture);
         texture.setRepeated(true);
-        sprite.setTextureRect(sf::IntRect(0,0,SCREEN_WIDTH*2,SCREEN_HEIGHT*2));
+        sprite.setTextureRect(sf::IntRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT));
     }
 
     void draw(sf::RenderWindow &window) {

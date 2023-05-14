@@ -1,55 +1,41 @@
 #include <SFML/Graphics.hpp>
+#include "../Headers/Globals.hpp"
 #include <math.h>
+#include <iostream>
+#include <string>
 
 class Ball{
 private:
     // Texture
+    std::string texturePath;
     sf::Texture texture;
     sf::Sprite sprite;
     
     // Movement
     int x;
     int y;
-    int dx;
-    int dy;
+    int dy = 0;
 
     // Attributes
-    int scale; // Radius of the ball
     bool isEnemy;
 
     // Physics
-    float grav = 0.5;
+    float grav;
 
 public:
     // Constructor for a ball with a color
-    Ball(std::string texturePath, int x, int y, int dx, int dy, int scale, bool isEnemy) {
+    Ball(std::string texturePath, int x, int y, int grav, bool isEnemy) {
         this->x = x;
         this->y = y;
-        this->dx = dx;
-        this->dy = dy;
-        this->scale = scale;
-        this->texture = texture;
+        this->grav = grav;
+        this->texturePath = texturePath;
         this->isEnemy = isEnemy;
+
         if (!texture.loadFromFile(texturePath)){
             std::cerr << "Error loading texture\n";
         }
         sprite.setTexture(texture);
         sprite.setScale(1,1);
-    }
-    // Destructor
-    ~Ball() {
-    }
-
-    // Get the hitbox of the ball
-    sf::IntRect hitbox(sf::RenderWindow& window) {
-        sf::IntRect hitbox(x, y, scale, scale);
-        //drawHitbox(window);
-        return hitbox;
-    }
-
-    void drawHitbox(sf::RenderWindow& window) {
-        sprite.setPosition(x,y);
-        window.draw(sprite);
     }
 
     void draw(sf::RenderWindow &window) {
@@ -58,9 +44,20 @@ public:
         window.draw(sprite);
     }
 
-    // Get the radius of the ball
-    int getRadius() const {
-        return scale;
+    // Get the hitbox of the ball
+    sf::IntRect hitbox(sf::RenderWindow& window) {
+        sf::IntRect hitbox(x, y, getSize().width, getSize().height);
+        //drawHitbox(window, hitbox);
+        return hitbox;
+    }
+
+/*     void drawHitbox(sf::RenderWindow& window) {
+        sprite.setPosition(x,y);
+        window.draw(sprite);
+    } */
+
+    sf::FloatRect getSize() {
+        return sprite.getGlobalBounds();
     }
 
     bool enemy() {
@@ -68,7 +65,7 @@ public:
     }
 
     void gravity() {
-        y += dy;
         dy += grav;
+        y += dy;
     }
 };
