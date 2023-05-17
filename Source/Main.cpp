@@ -67,8 +67,8 @@ int main() {
     Player player (
         "Media/Images/girl_spritesheet.png",
         SCREEN_WIDTH/3, // X Position
-        10,
-        400
+        10, // Speed
+        400 // JumpHeight
     );
 
     // State machine

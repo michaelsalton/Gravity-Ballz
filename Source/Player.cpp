@@ -15,6 +15,7 @@ private:
     float y;
     float speed;
     float jumpHeight;
+    float staticSpeed;
 
     // Physics
     float grav = 1;
@@ -27,6 +28,12 @@ private:
     std::string anim_state = "idle";
     std::vector<sf::IntRect> anim_idle;
 
+    // Dash
+    sf::Clock dashCooldownTimer;
+    bool isDashOnCooldown = false;
+    sf::Time dashCooldownTime = sf::seconds(0.1); // Cooldown time in seconds
+    bool isShiftKeyPressed = false;
+
 public:
     Player(std::string texturePath, float x, float speed, float jumpHeight) {
         this->x = x;
@@ -34,12 +41,13 @@ public:
         this->speed = speed;
         this->jumpHeight = jumpHeight;
         this->texturePath = texturePath;
+        this->staticSpeed = speed;
 
         if (!texture.loadFromFile(texturePath)){
             std::cerr << "Error loading texture\n";
         }
         sprite.setTexture(texture);
-        sprite.setScale(1.5,1.5);
+        sprite.setScale(2,2);
 
         // Idle
         anim_idle.push_back(sf::IntRect(0, 3, 51, 67)); // 
@@ -115,21 +123,53 @@ public:
         }
     }
 
+    void dash(int direction) {
+        if (x + getSize().width <= SCREEN_WIDTH && 
+        x >= 0 && !isDashOnCooldown) {
+            speed *= 3;
+            isDashOnCooldown = true;
+            dashCooldownTimer.restart();
+        }
+    }
+
     void keyboard() {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)
-        || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+            || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
             moveLeft();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || 
+                (sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))) {
+                isShiftKeyPressed = true;
+            } else if (isShiftKeyPressed) {
+                dash(-1); // Activate the dash ability
+                isShiftKeyPressed = false;
+            }
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)
-        || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+            || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             moveRight();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || 
+                (sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))) {
+                isShiftKeyPressed = true;
+            } else if (isShiftKeyPressed) {
+                dash(1); // Activate the dash ability
+                isShiftKeyPressed = false;
+            }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
-        || sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+            || sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
             if (onGround && !isJumping) {
                 isJumping = true;
                 onGround = false;
             }
         }
+        // Check dash cooldown
+        if (isDashOnCooldown && dashCooldownTimer.getElapsedTime() >= dashCooldownTime) {
+            isDashOnCooldown = false; // Reset the dash cooldown flag
+            resetSpeed();
+        }
+    }
+
+    void resetSpeed() {
+        speed = staticSpeed;
     }
 
     void gravity() {
