@@ -29,10 +29,3 @@
 *.exe
 *.out
 *.app
-
-# Folders
-dependencies/
-vscode/
-
-# Files
-Makefile
