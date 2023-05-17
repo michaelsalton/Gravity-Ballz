@@ -29,6 +29,8 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Gravity Ballz ++");
 
     std::vector<Ball> balls; // Vector to hold the balls
+    
+    std::vector<Ball> tests;
 
     // Fonts
     sf::Font font;
@@ -79,6 +81,7 @@ int main() {
 
     while (window.isOpen()) {
         sf::Event event;
+
         while (window.pollEvent(event)){
 
             if (event.type == sf::Event::Closed) {
@@ -94,51 +97,49 @@ int main() {
                 music.play();
             }
         }
+
         if (!state.isPaused()) {
             // Check if it's time to create a new ball
             if (rand() % enemySpawnRate == 0) {
                 Ball enemy(
-                    "Media/Images/spike.png",
-                    randomNum(30, SCREEN_WIDTH - 30), // X Coordinate
-                    -200,                  // Y Coordinate
-                    randomNum(1,1),    // Y Velocity
-                    true                 // isEnemy
+                    red,
+                    randomNum(30, SCREEN_WIDTH - 30), // X
+                    -100, // Y
+                    0.5, // Gravity
+                    true, // isEnemy
+                    25 // Scale
                 );
                 balls.push_back(enemy);
             }
             if (rand() % coinSpawnRate == 0) {
                 Ball coin(
-                    "Media/Images/coin.png",
-                    randomNum(30, SCREEN_WIDTH - 30), // X Coordinate
-                    -200,                // Y Coordinate
-                    randomNum(1, 1),    // Y Velocity
-                    false               // isEnemy
+                    gold,
+                    randomNum(30, SCREEN_WIDTH - 30), // X
+                    -100, // Y
+                    0.3,    // Gravity
+                    false, // isEnemy
+                    20 // Scale
                 );
                 balls.push_back(coin); // Add the ball to the vector
             }
 
             // Move and draw all the balls
-            for (auto ball = balls.begin(); ball != balls.end(); ++ball) {
+            for (auto ball = balls.begin(); ball != balls.end();) {
                 ball->draw(window);
-                if (player.hitbox(window).intersects(ball->hitbox(window))) {
+                if (ball->getSize().top >= SCREEN_HEIGHT) {
+                    ball = balls.erase(ball); // Erase the ball and update the iterator
+                } else if (player.hitbox(window).intersects(ball->hitbox(window))) {
                     if (ball->enemy()) {
-                        // handle collision with enemy ball
-                        // for example, remove the ball from the vector and decrement the score
-                        ball = balls.erase(ball);
                         score.decrement(2);
-                        // since we have erased an element from the vector, we need to decrement the iterator
-                        --ball;
-                    } else if (!ball->enemy()) {
-                        // handle collision with coin
-                        // for example, remove the ball from the vector and increment the score
-                        ball = balls.erase(ball);
+                    } else {
                         score.increment(1);
-                        // since we have erased an element from the vector, we need to decrement the iterator
-                        --ball;
                     }
+                    ball = balls.erase(ball); // Erase the ball and update the iterator
+                } else {
+                    ++ball; // Move to the next ball
                 }
             }
-            
+
             // Draw Objects
             score.draw(window);
             player.draw(window);

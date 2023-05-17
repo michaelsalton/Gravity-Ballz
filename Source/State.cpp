@@ -10,9 +10,6 @@ public:
     //Constructot
     State() {
     }
-    // Destructor
-    ~State() {
-    }
 
     void pause() {
         paused = !paused;

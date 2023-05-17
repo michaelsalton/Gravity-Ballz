@@ -10,11 +10,14 @@ private:
     std::string texturePath;
     sf::Texture texture;
     sf::Sprite sprite;
+    sf::CircleShape shape;
+    int scale;
+    sf::Color color;
     
     // Movement
     int x;
     int y;
-    int dy = 0;
+    float dy = 0;
 
     // Attributes
     bool isEnemy;
@@ -24,24 +27,36 @@ private:
 
 public:
     // Constructor for a ball with a color
-    Ball(std::string texturePath, int x, int y, int grav, bool isEnemy) {
+    Ball(std::string texturePath, int x, int y, float grav, bool isEnemy, int scale) {
         this->x = x;
         this->y = y;
         this->grav = grav;
         this->texturePath = texturePath;
         this->isEnemy = isEnemy;
+        this->scale = scale;
 
         if (!texture.loadFromFile(texturePath)){
             std::cerr << "Error loading texture\n";
         }
         sprite.setTexture(texture);
-        sprite.setScale(1,1);
+        sprite.setScale(scale,scale);
+    }
+    Ball(sf::Color color, int x, int y, float grav, bool isEnemy, int scale) {
+        this->x = x;
+        this->y = y;
+        this->grav = grav;
+        this->color = color;
+        this->isEnemy = isEnemy;
+        this->scale = scale;
+
+        shape.setFillColor(color);
+        shape.setRadius(scale);
     }
 
     void draw(sf::RenderWindow &window) {
         gravity();
-        sprite.setPosition(x,y);
-        window.draw(sprite);
+        shape.setPosition(x,y);
+        window.draw(shape);
     }
 
     // Get the hitbox of the ball
@@ -57,7 +72,7 @@ public:
     } */
 
     sf::FloatRect getSize() {
-        return sprite.getGlobalBounds();
+        return shape.getGlobalBounds();
     }
 
     bool enemy() {

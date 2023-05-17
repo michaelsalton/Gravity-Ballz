@@ -17,9 +17,6 @@ public:
         this->score = score;
         this->font = font;
     }
-    // Destructor
-    ~Score() {
-    }
 
     // Increment the score by 1
     void increment(int amount) {

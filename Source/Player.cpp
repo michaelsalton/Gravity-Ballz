@@ -84,7 +84,7 @@ public:
     // Get the hitbox of the player
     sf::IntRect hitbox(sf::RenderWindow& window) {
         sf::IntRect hitbox(x, y, getSize().width, getSize().height);
-        drawHitbox(window, hitbox);
+        //drawHitbox(window, hitbox);
         return hitbox;
     }
 
